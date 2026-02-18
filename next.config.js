@@ -9,6 +9,16 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+
+  // Fix ERR_IMPORT_ATTRIBUTE_MISSING for wormhole SDK JSON imports
+  serverExternalPackages: [
+    '@wormhole-foundation/sdk-solana-ntt',
+    '@wormhole-foundation/sdk',
+  ],
+
+  experimental: {
+    esmExternals: 'loose',
+  },
   
   webpack: (config, { isServer, webpack }) => {
     // Fix cho browser
