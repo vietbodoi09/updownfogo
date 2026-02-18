@@ -15,10 +15,6 @@ const nextConfig = {
     '@wormhole-foundation/sdk-solana-ntt',
     '@wormhole-foundation/sdk',
   ],
-
-  experimental: {
-    esmExternals: 'loose',
-  },
   
   webpack: (config, { isServer, webpack }) => {
     // Fix cho browser
