@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import { FogoSessionProvider, Network } from '@fogo/sessions-sdk-react';
-import { NATIVE_MINT } from '@solana/spl-token';
+import { ClientProvider } from '@/components/ClientProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -16,14 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <FogoSessionProvider
-          network={Network.Testnet}
-          tokens={[NATIVE_MINT.toBase58()]}
-          defaultRequestedLimits={{ [NATIVE_MINT.toBase58()]: 10000000000n }}
-          enableUnlimited
-        >
+        <ClientProvider>
           {children}
-        </FogoSessionProvider>
+        </ClientProvider>
       </body>
     </html>
   );
