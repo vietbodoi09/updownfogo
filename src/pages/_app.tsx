@@ -1,17 +1,16 @@
 import type { AppProps } from "next/app";
-import { FogoSessionProvider, Network } from "@fogo/sessions-sdk-react";
-import { NATIVE_MINT } from "@solana/spl-token";
+import dynamic from "next/dynamic";
 import "../globals.css";
+
+const ClientProvider = dynamic(
+  () => import("../components/ClientProvider").then((mod) => mod.ClientProvider),
+  { ssr: false }
+);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <FogoSessionProvider
-      network={Network.Testnet}
-      tokens={[NATIVE_MINT.toBase58()]}
-      defaultRequestedLimits={{ [NATIVE_MINT.toBase58()]: 10000000000n }}
-      enableUnlimited
-    >
+    <ClientProvider>
       <Component {...pageProps} />
-    </FogoSessionProvider>
+    </ClientProvider>
   );
 }
