@@ -6,6 +6,10 @@ const nextConfig = {
     unoptimized: true
   },
   webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, './src'),
+    };
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
