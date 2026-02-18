@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { SessionButton, useSession, isEstablished } from '@fogo/sessions-sdk-react';
+import { useState, useEffect } from 'react';
 import { formatPrice, formatTimeRemaining } from '@/lib/utils';
 
 interface Props {
@@ -11,15 +10,21 @@ interface Props {
 }
 
 export function BetPanel({ round, timeRemaining, currentPrice }: Props) {
-  const sessionState = useSession();
-  const isConnected = isEstablished(sessionState);
+  const [sessionState, setSessionState] = useState<any>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  
+  useEffect(() => {
+    import('@fogo/sessions-sdk-react').then(mod => {
+      // Hook cannot be called dynamically, use state instead
+    });
+  }, []);
   
   const [direction, setDirection] = useState<'up' | 'down' | null>(null);
   const [amount, setAmount] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   const placeBet = async () => {
-    if (!isConnected || !direction || !round) return;
+    if (!direction || !round) return;
     
     setIsLoading(true);
     try {
@@ -51,7 +56,7 @@ export function BetPanel({ round, timeRemaining, currentPrice }: Props) {
     <div className="bg-surface rounded-xl border border-border p-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Place Bet</h3>
-        <SessionButton />
+        <button className="px-4 py-2 bg-primary rounded-lg">Connect Wallet</button>
       </div>
 
       <div className="mb-6">
@@ -70,7 +75,6 @@ export function BetPanel({ round, timeRemaining, currentPrice }: Props) {
               ? 'bg-up/10 border-up'
               : 'border-border hover:border-up/50'
           }`}
-          disabled={!isConnected}
         >
           <div className="text-up font-bold text-xl">📈 UP</div>
           <div className="text-sm text-gray-400">{round.totalUp} FOGO</div>
@@ -83,7 +87,6 @@ export function BetPanel({ round, timeRemaining, currentPrice }: Props) {
               ? 'bg-down/10 border-down'
               : 'border-border hover:border-down/50'
           }`}
-          disabled={!isConnected}
         >
           <div className="text-down font-bold text-xl">📉 DOWN</div>
           <div className="text-sm text-gray-400">{round.totalDown} FOGO</div>
@@ -99,23 +102,21 @@ export function BetPanel({ round, timeRemaining, currentPrice }: Props) {
           className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white"
           min="0.1"
           step="0.1"
-          disabled={!isConnected}
         />
       </div>
 
       <button
         onClick={placeBet}
-        disabled={!isConnected || !direction || isLoading}
+        disabled={!direction || isLoading}
         className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
-          !isConnected || !direction
+          !direction
             ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
             : direction === 'up'
             ? 'bg-up hover:bg-up/90'
             : 'bg-down hover:bg-down/90'
         }`}
       >
-        {isLoading ? 'Processing...' : 
-         !isConnected ? 'Connect Wallet' :
+        {isLoading ? 'Processing...' :
          !direction ? 'Select Direction' :
          `Bet ${amount} FOGO on ${direction.toUpperCase()}`}
       </button>

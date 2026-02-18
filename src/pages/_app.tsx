@@ -1,17 +1,19 @@
 import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
 import '../globals.css';
 
-// Lazy load Fogo Provider to avoid SSR issues
-const FogoProvider = dynamic(
-  () => import('@/components/FogoProvider').then(mod => mod.FogoProvider),
-  { ssr: false }
-);
+// No SSR wrapper
+function SafeHydrate({ children }: { children: React.ReactNode }) {
+  return (
+    <div suppressHydrationWarning>
+      {typeof window === 'undefined' ? null : children}
+    </div>
+  );
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <FogoProvider>
+    <SafeHydrate>
       <Component {...pageProps} />
-    </FogoProvider>
+    </SafeHydrate>
   );
 }

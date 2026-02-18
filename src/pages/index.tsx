@@ -1,15 +1,44 @@
-'use client';
-
-import { SessionButton } from '@fogo/sessions-sdk-react';
+import { useEffect, useState } from 'react';
 import { usePrice } from '@/hooks/usePrice';
 import { useRound } from '@/hooks/useRound';
 import { PriceChart } from '@/components/PriceChart';
 import { BetPanel } from '@/components/BetPanel';
 import { formatPrice } from '@/lib/utils';
 
+// Dynamic import Fogo components
+function SessionButtonWrapper() {
+  const [SessionButton, setSessionButton] = useState<any>(null);
+  
+  useEffect(() => {
+    import('@fogo/sessions-sdk-react').then(mod => {
+      setSessionButton(() => mod.SessionButton);
+    });
+  }, []);
+  
+  if (!SessionButton) return <button className="px-4 py-2 bg-gray-700 rounded-lg">Loading...</button>;
+  return <SessionButton />;
+}
+
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const { price, history, isConnected: priceConnected } = usePrice();
   const { activeRound, timeRemaining } = useRound();
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -30,7 +59,7 @@ export default function Home() {
                 {formatPrice(price)}
               </div>
             </div>
-            <SessionButton />
+            <SessionButtonWrapper />
           </div>
         </div>
       </header>

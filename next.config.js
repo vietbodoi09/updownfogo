@@ -18,8 +18,6 @@ const nextConfig = {
     };
     return config;
   },
-  // Transpile problematic packages
-  transpilePackages: ['@wormhole-foundation/sdk-solana-ntt', '@wormhole-foundation/sdk-definitions-ntt'],
 }
 
 module.exports = nextConfig
