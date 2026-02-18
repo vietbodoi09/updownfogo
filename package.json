@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@fogo/sessions-sdk-react": "0.1.8",
+    "@fogo/sessions-sdk-react": "0.1.5",
     "@solana/spl-token": "^0.4.0",
     "@solana/web3.js": "^1.91.0",
     "buffer": "6.0.3",
