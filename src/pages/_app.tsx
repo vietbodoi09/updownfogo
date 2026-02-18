@@ -1,19 +1,17 @@
-import type { AppProps } from 'next/app';
-import '../globals.css';
-
-// No SSR wrapper
-function SafeHydrate({ children }: { children: React.ReactNode }) {
-  return (
-    <div suppressHydrationWarning>
-      {typeof window === 'undefined' ? null : children}
-    </div>
-  );
-}
+import type { AppProps } from "next/app";
+import { FogoSessionProvider, Network } from "@fogo/sessions-sdk-react";
+import { NATIVE_MINT } from "@solana/spl-token";
+import "../globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SafeHydrate>
+    <FogoSessionProvider
+      network={Network.Testnet}
+      tokens={[NATIVE_MINT.toBase58()]}
+      defaultRequestedLimits={{ [NATIVE_MINT.toBase58()]: 10000000000n }}
+      enableUnlimited
+    >
       <Component {...pageProps} />
-    </SafeHydrate>
+    </FogoSessionProvider>
   );
 }
