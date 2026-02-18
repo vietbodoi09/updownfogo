@@ -7,6 +7,10 @@ import { PriceChart } from '@/components/PriceChart';
 import { BetPanel } from '@/components/BetPanel';
 import { formatPrice } from '@/lib/utils';
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function Home() {
   const { price, history, isConnected: priceConnected } = usePrice();
   const { activeRound, timeRemaining } = useRound();

@@ -18,6 +18,10 @@ const nextConfig = {
     };
     return config;
   },
+  // Disable static optimization for client components
+  experimental: {
+    appDir: true,
+  },
 }
 
 module.exports = nextConfig
