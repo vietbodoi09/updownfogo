@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --primary: #58a6ff;
+  --up: #22c55e;
+  --down: #ef4444;
+}
+
+body {
+  background-color: var(--background);
+  color: white;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-up {
+  background-color: var(--up);
+}
+
+.bg-down {
+  background-color: var(--down);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.text-up {
+  color: var(--up);
+}
+
+.text-down {
+  color: var(--down);
+}
+
+.text-primary {
+  color: var(--primary);
+}
