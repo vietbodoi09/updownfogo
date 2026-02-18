@@ -18,6 +18,8 @@ const nextConfig = {
     };
     return config;
   },
+  // Disable static optimization
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
